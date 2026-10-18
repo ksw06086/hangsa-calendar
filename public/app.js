@@ -54,6 +54,25 @@ const esc = (v) =>
         c
       ],
   );
+function collaboratorIds(value) {
+  if (Array.isArray(value)) return value.map(Number).filter(Number.isFinite);
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(Number).filter(Number.isFinite) : [];
+  } catch {
+    return [];
+  }
+}
+function historySnapshot(value) {
+  if (value && typeof value === "object" && !Array.isArray(value)) return value;
+  try {
+    const parsed = JSON.parse(value || "{}");
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+}
 const dt = (v) =>
   v ? new Date(v).toLocaleString("ko-KR", { timeZone: "Asia/Seoul" }) : "—";
 const date = (d) =>
@@ -286,7 +305,7 @@ function render() {
   draw();
 }
 function head(title, sub, extra = "") {
-  return `<div class="page-head"><div><h1>${title}</h1><p>${sub}</p></div>${extra}</div>`;
+  return `<div class="page-head"><div class="page-heading"><h1>${title}</h1><p>${sub}</p></div>${extra ? `<div class="page-actions">${extra}</div>` : ""}</div>`;
 }
 function options(selected, active = true) {
   return depts
@@ -403,7 +422,7 @@ function form(main, e, modal = false) {
       .filter((d) => d.active)
       .map(
         (d) =>
-          `<label><input type="checkbox" name="collaborators" value="${d.id}" ${JSON.parse(e?.collaborators || "[]").includes(d.id) ? "checked" : ""}> ${esc(d.name)}</label>`,
+          `<label><input type="checkbox" name="collaborators" value="${d.id}" ${collaboratorIds(e?.collaborators).includes(d.id) ? "checked" : ""}> ${esc(d.name)}</label>`,
       )
       .join(
         "",
@@ -499,7 +518,7 @@ function details(id) {
     .join(
       "",
     )}</div><div class="m-cell"><span class="label">목적</span><p>${esc(e.purpose)}</p></div><p>협력부서: ${
-    JSON.parse(e.collaborators)
+    collaboratorIds(e.collaborators)
       .map((id) => esc(depts.find((d) => d.id === id)?.name))
       .join(", ") || "없음"
   }</p>${canManage(e) && eventEnded(e) && e.status !== "삭제됨" ? `<form id="actual"><input type="hidden" name="event_id" value="${e.id}"><div class="field"><label>실제 참여 인원 · 선택사항</label><input name="actual" type="number" min="0" step="1" value="${e.actual ?? ""}"></div><button class="btn ghost">참여 인원 저장</button></form>` : ""}${adminActions}`;
@@ -764,7 +783,7 @@ async function action(a, b) {
   if (a === "delete-event") await deleteEvent(b.dataset.id);
   if (a === "history") {
     const h = await api(`/events/${b.dataset.id}/history`);
-    dialog.innerHTML = `<button class="btn ghost" data-action="close">닫기</button><h2>변경 이력</h2>${h.map((v) => `<div class="item"><b>${esc(v.action)}</b> · ${dt(v.created)}<div class="meta">${esc(v.actor)}</div><p>${esc(JSON.parse(v.snapshot).title)} · ${esc(JSON.parse(v.snapshot).start)} ~ ${esc(JSON.parse(v.snapshot).end)}</p></div>`).join("")}`;
+    dialog.innerHTML = `<button class="btn ghost" data-action="close">닫기</button><h2>변경 이력</h2>${h.map((v) => { const snapshot = historySnapshot(v.snapshot); return `<div class="item"><b>${esc(v.action)}</b> · ${dt(v.created)}<div class="meta">${esc(v.actor)}</div><p>${esc(snapshot.title)} · ${esc(snapshot.start)} ~ ${esc(snapshot.end)}</p></div>`; }).join("")}`;
   }
   if (
     a === "delete-dept" &&

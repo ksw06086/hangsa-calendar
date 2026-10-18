@@ -54,9 +54,16 @@
   .page{ display:none; }
   .page.active{ display:block; }
 
-  .page-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:22px; }
+  .page-head{ display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-bottom:22px; }
+  .page-heading{ min-width:0; }
+  .page-actions{ display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; }
   .page-head h1{ font-size:21px; margin:0 0 4px; letter-spacing:-0.02em; }
   .page-head p{ margin:0; color:var(--sub); font-size:13.5px; }
+
+  @media (max-width:640px){
+    .page-head{ align-items:flex-start; flex-direction:column; }
+    .page-actions{ justify-content:flex-start; }
+  }
 
   .btn{
     all:unset; cursor:pointer;
