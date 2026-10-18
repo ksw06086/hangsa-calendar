@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>시몬ONE 행사캘린더</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="theme-color" content="#3651e3" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <dialog id="detail"></dialog>
+    <dialog id="event-editor" aria-labelledby="event-editor-title"></dialog>
+    <dialog id="archive-modal" aria-labelledby="archive-modal-title"></dialog>
+    <div id="toast" role="status"></div>
+    <script src="./config.js"></script>
+    <script type="module" src="./app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js");
+    </script>
+  </body>
+</html>

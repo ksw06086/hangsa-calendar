@@ -1,0 +1,21 @@
+{
+  "name": "simon-one-calendar",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js",
+    "deploy:worker": "wrangler deploy",
+    "migrate:sheets": "node --env-file-if-exists=.env scripts/migrate-sheets.js",
+    "test": "node --test test/calendar.test.js test/notifications.test.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "prettier": "^3.9.6",
+    "wrangler": "^4.151.1"
+  }
+}

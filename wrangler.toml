@@ -1,0 +1,14 @@
+name = "simon-one-calendar-api"
+main = "worker/index.js"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+SHEETS_SPREADSHEET_ID = "1r1dvNOq6_DVdfPwICqVZbDuXxU_XSuM1xRPwh0reVOo"
+GOOGLE_DRIVE_FOLDER_ID = "1NYPuV85YCMhScBe1ulyKtupZ0JY_kg6D"
+DRIVE_UPLOAD_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyqX-in6fOdMN3SqRQQBJw8JBVVEJ7gkFNYHJ5lUwY7j2xklTAA1wtCjTcqroHhfwKP/exec"
+ALLOWED_ORIGIN = "https://YOUR-ACCOUNT.github.io"
+PUBLIC_URL = "https://YOUR-ACCOUNT.github.io/YOUR-REPOSITORY"
+
+[triggers]
+crons = ["* * * * *"]

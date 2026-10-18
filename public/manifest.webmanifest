@@ -1,0 +1,9 @@
+{
+  "name": "시몬ONE 행사캘린더",
+  "short_name": "시몬ONE",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f6f8fc",
+  "theme_color": "#3651e3",
+  "icons": []
+}
